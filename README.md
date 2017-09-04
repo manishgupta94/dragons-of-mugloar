@@ -13,6 +13,5 @@ Solution implemented with Java.
    
 ## Installation ##
    * Clone or fork the repo
-   * `mvn install` for build
-   * `mvn clean package` for building jar 
+   * `mvn install` for install or `mvn clean package` for build 
 
