@@ -13,7 +13,6 @@ public class Dragon {
 	public Dragon() {}
 
 	public Dragon(int scaleThickness, int clawSharpness, int wingStrength, int fireBreath) {
-		if ((scaleThickness + clawSharpness + wingStrength + fireBreath) != 20) { throw new IllegalArgumentException("Sum of stats is not 20"); }
 		this.scaleThickness = scaleThickness;
 		this.clawSharpness = clawSharpness;
 		this.wingStrength = wingStrength;
