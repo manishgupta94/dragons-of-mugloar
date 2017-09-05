@@ -1,14 +1,19 @@
 package game;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import model.Dragon;
 import model.Knight;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class DragonCreatorService {
 
-	public DragonCreatorService() {}
+	private KnightDragonFactory factory;
+
+	public DragonCreatorService() {
+		factory= new KnightDragonFactory();
+	}
 
 	Dragon trainDragon(Knight knight, String weatherCode) {
 		Dragon dragon = null;
@@ -17,13 +22,13 @@ public class DragonCreatorService {
 				dragon = getDragonNormalWeather(knight);
 				break;
 			case "FUNDEFINEDG":
-				dragon = getDroughtDragon();
+				dragon = factory.getDroughtDragon();
 				break;
 			case "HVA":
-				dragon = getRainDragon();
+				dragon = factory.getRainDragon();
 				break;
 			case "T E":
-				dragon = getDroughtDragon();
+				dragon = factory.getDroughtDragon();
 				break;
 			default:
 				break;
@@ -31,27 +36,15 @@ public class DragonCreatorService {
 		return dragon;
 	}
 
-	private Dragon getDroughtDragon() {
-		return new Dragon(5, 5, 5, 5);
-	}
-
-	private Dragon getRainDragon() {
-		return new Dragon(5, 10, 5, 0);
-	}
-
 	private Dragon getDragonNormalWeather(Knight knight) {
-		if (knight.equals(getBlancedKnight())) {
-			return getBalancedKnightsDragon();
+		if (knight.equals(factory.getBlancedKnight())) {
+			return factory.getBalancedKnightsDragon();
 		}
+
 		Map<String, Integer> abilityIndexMapDragon = knight.getAbilityIndexMapDragon();
+		Map<String, Integer> sortedNewMap = getSortedMap(abilityIndexMapDragon);
 
-		NameAbilityHelper maximum = getMaximumAbility(abilityIndexMapDragon);
-		NameAbilityHelper smallest = getMinumumNonZeroAbility(abilityIndexMapDragon);
-		NameAbilityHelper secondSmallest = getSecondSmallesAbility(abilityIndexMapDragon, smallest, maximum);
-
-		abilityIndexMapDragon.put(smallest.getAbility(), smallest.getValue() - 1);
-		abilityIndexMapDragon.put(maximum.getAbility(), maximum.getValue() + 2);
-		abilityIndexMapDragon.put(secondSmallest.getAbility(), secondSmallest.getValue() - 1);
+		changeAbilityMapToDefeatKnight(abilityIndexMapDragon, sortedNewMap);
 
 		return new Dragon(abilityIndexMapDragon.get("scaleThickness"),
 				abilityIndexMapDragon.get("clawSharpness"),
@@ -59,65 +52,36 @@ public class DragonCreatorService {
 				abilityIndexMapDragon.get("fireBreath"));
 	}
 
-	private Knight getBlancedKnight() {
-		return new Knight(5, 5, 5, 5);
-	}
+	private void changeAbilityMapToDefeatKnight(Map<String, Integer> abilityIndexMapDragon, Map<String, Integer> sortedMap) {
+		int index = 1;
+		int toDivide = 2;
 
-	private Dragon getBalancedKnightsDragon() {
-		return new Dragon(7, 5, 4, 4);
-	}
+		for (Map.Entry<String, Integer> e : sortedMap.entrySet()) {
+			int value = e.getValue();
+			String ability = e.getKey();
 
-	private NameAbilityHelper getMaximumAbility(Map<String, Integer> abilityIndexMapDragon) {
-		int max = 0;
-		String field = "";
-		for (Map.Entry entry : abilityIndexMapDragon.entrySet()) {
-			int currentVal = (int) entry.getValue();
-			if (currentVal > max) {
-				max = currentVal;
-				field = (String) entry.getKey();
-			}
-		}
-		return new NameAbilityHelper(field, max);
-	}
+			if (index == sortedMap.size()) {
+				abilityIndexMapDragon.put(ability, value + 2);
+				break;
 
-	private NameAbilityHelper getMinumumNonZeroAbility(Map<String, Integer> abilityIndexMapDragon) {
-		int value = Integer.MAX_VALUE;
-		String filed = "";
-
-		for (Map.Entry entry : abilityIndexMapDragon.entrySet()) {
-			int currentVal = (int) entry.getValue();
-			if (currentVal > 0) {
-				if (currentVal < value) {
-					value = currentVal;
-					filed = (String) entry.getKey();
-				}
-			}
-		}
-		return new NameAbilityHelper(filed, value);
-	}
-
-	private NameAbilityHelper getSecondSmallesAbility(Map<String, Integer> abilityIndexMapDragon, NameAbilityHelper smallest,
-	NameAbilityHelper biggest) {
-		int secondSmallestValue = Integer.MAX_VALUE;
-		String secondSmallestField = "";
-
-		for (Map.Entry entry : abilityIndexMapDragon.entrySet()) {
-			int currentVal = (int) entry.getValue();
-			String currentStr = (String) entry.getKey();
-
-			if (IsNotMaximumNorMinimumAlready(smallest, biggest, currentVal, currentStr)) {
-				if (currentVal < secondSmallestValue) {
-					secondSmallestValue = currentVal;
-					secondSmallestField = currentStr;
+			} else {
+				if (toDivide > 0) {
+					abilityIndexMapDragon.put(ability, value - 1);
+					toDivide--;
 				}
 			}
 
+			index++;
 		}
-
-		return new NameAbilityHelper(secondSmallestField, secondSmallestValue);
 	}
 
-	private boolean IsNotMaximumNorMinimumAlready(NameAbilityHelper smallest, NameAbilityHelper biggest, int currentVal, String currentStr) {
-		return currentVal >= smallest.getValue() && !currentStr.equals(smallest.getAbility()) && !currentStr.equals(biggest.getAbility());
+	private Map<String, Integer> getSortedMap(Map<String, Integer> map) {
+		return map
+					.entrySet()
+					.stream()
+					.filter(e -> e.getValue() > 0)
+					.sorted((e1, e2) -> e1.getValue().compareTo(e2.getValue()))
+					.collect(Collectors.
+							toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 	}
 }
