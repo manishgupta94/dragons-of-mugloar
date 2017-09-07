@@ -11,8 +11,8 @@ public class DragonCreatorService {
 
 	private KnightDragonFactory factory;
 
-	public DragonCreatorService() {
-		factory= new KnightDragonFactory();
+	public DragonCreatorService(KnightDragonFactory factory) {
+		this.factory = factory;
 	}
 
 	Dragon trainDragon(Knight knight, String weatherCode) {

@@ -17,8 +17,8 @@ public class HttpService {
 
 	private HttpClient httpClient;
 
-	public HttpService() {
-		this.httpClient = new HttpClient();
+	public HttpService(HttpClient httpClient) {
+		this.httpClient = httpClient;
 	}
 
 	public Game getGame() throws IOException {

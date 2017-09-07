@@ -16,8 +16,8 @@ public class DragonCreatorServiceTest {
 
 	@Before
 	public void setUp() {
-		service = new DragonCreatorService();
 		factory = new KnightDragonFactory();
+		service = new DragonCreatorService(factory);
 	}
 
 	@Test

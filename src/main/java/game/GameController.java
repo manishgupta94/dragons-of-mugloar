@@ -13,10 +13,10 @@ public class GameController {
 	private DragonCreatorService dragonCreatorService;
 	private Logger logger;
 
-	public GameController() {
-		this.httpService = new HttpService();
-		this.dragonCreatorService = new DragonCreatorService();
-		this.logger = Logger.getLogger(GameController.class);
+	public GameController(HttpService httpService, DragonCreatorService dragonCreatorService, Logger logger) {
+		this.httpService = httpService;
+		this.dragonCreatorService = dragonCreatorService;
+		this.logger = logger;
 	}
 
 	public GameResult game() throws IOException {
