@@ -1,5 +1,6 @@
 package game;
 
+import game.service.DragonCreatorService;
 import generated.Report;
 import http.HttpService;
 import model.*;
@@ -11,12 +12,12 @@ public class GameController {
 
 	private HttpService httpService;
 	private DragonCreatorService dragonCreatorService;
-	private Logger logger;
 
-	public GameController(HttpService httpService, DragonCreatorService dragonCreatorService, Logger logger) {
+	private final Logger logger = Logger.getLogger("Logger");
+
+	public GameController(HttpService httpService, DragonCreatorService dragonCreatorService) {
 		this.httpService = httpService;
 		this.dragonCreatorService = dragonCreatorService;
-		this.logger = logger;
 	}
 
 	public GameResult game() throws IOException {
@@ -31,7 +32,7 @@ public class GameController {
 			Dragon dragon = dragonCreatorService.trainDragon(data.getKnight(), data.getWeatherCode());
 			logger.info("Trained dragon: " + dragon);
 			result = getGameResult(new GameSolution(dragon), data.getGameId());
-			logger.info("Game result: " + result);
+			logger.info("Play result: " + result);
 		}
 
 		return result;

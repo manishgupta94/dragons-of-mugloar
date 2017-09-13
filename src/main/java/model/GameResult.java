@@ -10,6 +10,14 @@ public class GameResult {
 		return this.status;
 	}
 
+	public boolean isWon() {
+		if (status.equals("Victory")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	@Override
 	public String toString() {
 		return "GameResult{" +

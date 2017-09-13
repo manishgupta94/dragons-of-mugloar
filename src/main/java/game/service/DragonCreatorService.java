@@ -1,4 +1,4 @@
-package game;
+package game.service;
 
 import model.Dragon;
 import model.Knight;
@@ -15,7 +15,7 @@ public class DragonCreatorService {
 		this.factory = factory;
 	}
 
-	Dragon trainDragon(Knight knight, String weatherCode) {
+	public Dragon trainDragon(Knight knight, String weatherCode) {
 		Dragon dragon = null;
 		switch (weatherCode) {
 			case "NMR":

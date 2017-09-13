@@ -1,57 +1,33 @@
 package main;
 
-import game.DragonCreatorService;
-import game.GameController;
-import game.KnightDragonFactory;
-import http.HttpClientImpl;
-import http.HttpService;
+import game.Play;
+import game.PlayImpl;
 import model.GameResult;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Main {
 
-	private static final Logger logger = Logger.getLogger(Main.class);
+	private static final Logger logger = Logger.getLogger("Logger");
 
-	public static void main(String[] args) {
+	private static final Play play = new PlayImpl();
+
+	public static void main(String[] args) throws Exception {
+		long start = System.currentTimeMillis();
+
 		int nrOfGames = Integer.parseInt(args[0]);
+		boolean isMultiThreaded = Boolean.parseBoolean(args[1]);
 
-		GameController gameController = getGameController();
-		logger.info("Welcome to Dragons of Mugloar.");
+		List<GameResult> resultList = play.start(nrOfGames, isMultiThreaded);
 
-		int gameCounter = 0;
-		int won = 0;
-		while (gameCounter < nrOfGames) {
-			logger.info("Game nr: " + (gameCounter + 1));
-			try {
-				GameResult result = gameController.game();
-				if (result.getStatus().equals("Victory")) {
-					won++;
-				}
-			} catch (IOException e) {
-				logger.error("Faield to play game", e);
-			}
+		int games = resultList.size();
+		long won = resultList.stream()
+				.map(GameResult::isWon)
+				.filter(b -> b)
+				.count();
 
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				logger.error("Thread interrupted", e);
-			}
-
-			gameCounter++;
-		}
-
-		int lost = gameCounter - won;
-		logger.info("Played games: " + gameCounter + ", Won: " + won + ", Lost: " + lost + ", Win ratio " + ( won/gameCounter) * 100 + "%");
-	}
-
-	private static GameController getGameController() {
-		HttpService httpService = new HttpService(new HttpClientImpl());
-		DragonCreatorService dragonCreatorService = new DragonCreatorService(new KnightDragonFactory());
-		return new GameController(httpService, dragonCreatorService, logger);
+		logger.info("Time elapsed: " + (System.currentTimeMillis() - start)/1000 + " seconds");
+		logger.info("Played games: " + games + ", Won: " + won + ", Lost: " + (games - won) + ", Win ratio " + ( won/games) * 100 + "%");
 	}
 }

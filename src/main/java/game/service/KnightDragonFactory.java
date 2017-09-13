@@ -1,4 +1,4 @@
-package game;
+package game.service;
 
 import model.Dragon;
 import model.Knight;

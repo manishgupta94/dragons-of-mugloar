@@ -1,6 +1,4 @@
-package game;
-
-import model.Knight;
+package model;
 
 public class GameContainer {
 
