@@ -29,7 +29,7 @@ public class HttpService {
 	}
 
 	public GameResult solveGame(GameSolution solution, int gameId) throws IOException {
-		String ans = httpClient.makePostRequest(Constants.getGameSolutionUrl(gameId), serializationService.getStringFromJson(solution));
+		String ans = httpClient.makePostRequest(Constants.getGameSolutionUrl(gameId), serializationService.getJson(solution));
 		return serializationService.getFromJson(ans, GameResult.class);
 	}
 }

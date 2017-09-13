@@ -18,7 +18,7 @@ public class SerializationService {
 		return gson.fromJson(json, clazz);
 	}
 
-	public String getStringFromJson(Object o) {
+	public String getJson(Object o) {
 		return gson.toJson(o);
 	}
 
