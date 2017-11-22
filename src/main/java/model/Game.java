@@ -16,6 +16,14 @@ public class Game {
 		return this.knight;
 	}
 
+	public void setGameId(int gameId) {
+		this.gameId = gameId;
+	}
+
+	public void setKnight(Knight knight) {
+		this.knight = knight;
+	}
+
 	@Override
 	public String toString() {
 		return "Play{" +

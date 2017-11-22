@@ -11,25 +11,26 @@ import java.io.IOException;
 public class HttpService {
 
 	private HttpClient httpClient;
-	private SerializationService serializationService;
+	private ObjectSerializer objectSerializer;
 
-	public HttpService(HttpClient httpClient, SerializationService serializationService) {
+	public HttpService(HttpClient httpClient, ObjectSerializer objectSerializer) {
 		this.httpClient = httpClient;
-		this.serializationService = serializationService;
+		this.objectSerializer = objectSerializer;
 	}
 
 	public Game getGame() throws IOException {
 		String response = httpClient.makeGetRequest(Constants.GAME_URL);
-		return serializationService.getFromJson(response, Game.class);
+		return objectSerializer.getFromJson(response, Game.class);
 	}
 
 	public Report getWeather(int gameId) throws IOException {
 		String resp = httpClient.makeGetRequest(Constants.getGameWeatherUrl(gameId));
-		return serializationService.getObjectFromXml(resp, Report.class);
+		return objectSerializer.getObjectFromXml(resp, Report.class);
 	}
 
 	public GameResult solveGame(GameSolution solution, int gameId) throws IOException {
-		String ans = httpClient.makePostRequest(Constants.getGameSolutionUrl(gameId), serializationService.getJson(solution));
-		return serializationService.getFromJson(ans, GameResult.class);
+		String ans = httpClient.makePostRequest(Constants.getGameSolutionUrl(gameId), objectSerializer.getJson(solution));
+		return objectSerializer.getFromJson(ans, GameResult.class);
 	}
+
 }

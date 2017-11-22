@@ -4,7 +4,7 @@ import game.service.DragonCreatorService;
 import game.service.KnightDragonFactory;
 import http.HttpClientImpl;
 import http.HttpService;
-import http.SerializationService;
+import http.ObjectSerializer;
 import model.GameResult;
 import org.apache.log4j.Logger;
 
@@ -18,20 +18,31 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class PlayImpl implements Play {
 
-	private final Logger logger = Logger.getLogger("Logger");
-	private final int THREADS = 5;
+	private GameController gameController;
 
-	public PlayImpl() {}
+	private boolean isAsync;
+
+	private final Logger logger = Logger.getLogger("Logger");
+
+	private final static int nrOfThreads = 5;
+
+	public PlayImpl(GameController gameController) {
+		this.gameController = gameController;
+	}
+
+	public PlayImpl(GameController gameController, boolean isAsync) {
+		this.gameController = gameController;
+		this.isAsync = isAsync;
+	}
 
 	@Override
-	public List<GameResult> start(int nrOfGames, boolean isAsync) {
-		GameController gameController = getGameController();
+	public List<GameResult> start(int nrOfGames) {
 		ExecutorService executor;
 
 		logger.info("Welcome to Dragons of Mugloar.");
 		if (isAsync) {
 			logger.info("Playing multithreaded game");
-			executor = Executors.newFixedThreadPool(THREADS);
+			executor = Executors.newFixedThreadPool(nrOfThreads);
 		} else {
 			logger.info("Playing singlehreaded game");
 			executor = Executors.newSingleThreadExecutor();
@@ -68,9 +79,4 @@ public class PlayImpl implements Play {
 		return resultList;
 	}
 
-	private GameController getGameController() {
-		HttpService httpService = new HttpService(new HttpClientImpl(), new SerializationService());
-		DragonCreatorService dragonCreatorService = new DragonCreatorService(new KnightDragonFactory());
-		return new GameController(httpService, dragonCreatorService);
-	}
 }

@@ -25,4 +25,5 @@ public class GameContainer {
 	public String getWeatherCode() {
 		return this.weatherCode;
 	}
+
 }

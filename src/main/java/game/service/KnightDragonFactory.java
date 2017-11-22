@@ -5,8 +5,6 @@ import model.Knight;
 
 public class KnightDragonFactory {
 
-	public KnightDragonFactory() {}
-
 	public Dragon getDroughtDragon() {
 		return new Dragon(5, 5, 5, 5);
 	}

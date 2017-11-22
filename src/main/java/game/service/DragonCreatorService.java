@@ -7,6 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toMap;
+
 public class DragonCreatorService {
 
 	private KnightDragonFactory factory;
@@ -76,12 +78,11 @@ public class DragonCreatorService {
 	}
 
 	private Map<String, Integer> getSortedMap(Map<String, Integer> map) {
-		return map
-					.entrySet()
-					.stream()
-					.filter(e -> e.getValue() > 0)
-					.sorted((e1, e2) -> e1.getValue().compareTo(e2.getValue()))
-					.collect(Collectors.
-							toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+		return map.entrySet()
+				.stream()
+				.filter(e -> e.getValue() > 0)
+				.sorted((e1, e2) -> e1.getValue().compareTo(e2.getValue()))
+				.collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 	}
+
 }

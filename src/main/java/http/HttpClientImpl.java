@@ -1,14 +1,11 @@
 package http;
 
-import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;
 
 import java.io.IOException;
 
 public class HttpClientImpl implements HttpClient {
-
-	public HttpClientImpl() {}
 
 	@Override
 	public String makeGetRequest(String url) throws IOException {
@@ -26,4 +23,5 @@ public class HttpClientImpl implements HttpClient {
 				.returnContent()
 				.asString();
 	}
+
 }

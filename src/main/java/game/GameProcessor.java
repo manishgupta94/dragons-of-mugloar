@@ -32,4 +32,5 @@ public class GameProcessor implements Callable<GameResult> {
 		}
 		return result;
 	}
+
 }

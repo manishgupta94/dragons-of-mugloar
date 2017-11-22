@@ -7,4 +7,5 @@ public class GameSolution {
 	public GameSolution(Dragon dragon) {
 		this.dragon = dragon;
 	}
+
 }

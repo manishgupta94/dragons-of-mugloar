@@ -18,8 +18,8 @@ public class HttpServiceTest {
 	@Before
 	public void setUp() {
 		HttpClient client = new HttpClientImpl();
-		SerializationService serializationService = new SerializationService();
-		service = new HttpService(client, serializationService);
+		ObjectSerializer objectSerializer = new ObjectSerializer();
+		service = new HttpService(client, objectSerializer);
 	}
 
 	@Test

@@ -11,6 +11,7 @@ import java.io.IOException;
 public class GameController {
 
 	private HttpService httpService;
+
 	private DragonCreatorService dragonCreatorService;
 
 	private final Logger logger = Logger.getLogger("Logger");

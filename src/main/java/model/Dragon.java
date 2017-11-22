@@ -50,4 +50,5 @@ public class Dragon {
 		result = 31 * result + this.fireBreath;
 		return result;
 	}
+
 }
