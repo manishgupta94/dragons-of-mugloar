@@ -31,4 +31,5 @@ public class Game {
 				", knight=" + knight +
 				'}';
 	}
+
 }

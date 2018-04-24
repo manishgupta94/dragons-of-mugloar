@@ -11,11 +11,7 @@ public class GameResult {
 	}
 
 	public boolean isWon() {
-		if (status.equals("Victory")) {
-			return true;
-		} else {
-			return false;
-		}
+		return "Victory".equals(status);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Map;
+
 public class Dragon {
 
 	private int scaleThickness;
@@ -16,6 +18,29 @@ public class Dragon {
 		this.scaleThickness = scaleThickness;
 		this.clawSharpness = clawSharpness;
 		this.wingStrength = wingStrength;
+		this.fireBreath = fireBreath;
+	}
+
+    public Dragon(Map<String, Integer> abilityIndexMapKnight) {
+        this.scaleThickness = abilityIndexMapKnight.get("scaleThickness");
+        this.clawSharpness = abilityIndexMapKnight.get("clawSharpness");
+        this.wingStrength = abilityIndexMapKnight.get("wingStrength");
+        this.fireBreath = abilityIndexMapKnight.get("fireBreath");
+    }
+
+	public void setScaleThickness(int scaleThickness) {
+		this.scaleThickness = scaleThickness;
+	}
+
+	public void setClawSharpness(int clawSharpness) {
+		this.clawSharpness = clawSharpness;
+	}
+
+	public void setWingStrength(int wingStrength) {
+		this.wingStrength = wingStrength;
+	}
+
+	public void setFireBreath(int fireBreath) {
 		this.fireBreath = fireBreath;
 	}
 

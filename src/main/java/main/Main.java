@@ -4,7 +4,6 @@ import game.GameController;
 import game.Play;
 import game.PlayImpl;
 import game.service.DragonCreatorService;
-import game.service.KnightDragonFactory;
 import http.HttpClientImpl;
 import http.HttpService;
 import http.ObjectSerializer;
@@ -39,7 +38,7 @@ public class Main {
 
 	private static GameController constructGameController() {
 		HttpService httpService = new HttpService(new HttpClientImpl(), new ObjectSerializer());
-		DragonCreatorService dragonCreatorService = new DragonCreatorService(new KnightDragonFactory());
+		DragonCreatorService dragonCreatorService = new DragonCreatorService();
 		return new GameController(httpService, dragonCreatorService);
 	}
 

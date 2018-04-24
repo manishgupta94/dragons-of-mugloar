@@ -3,34 +3,29 @@ package game.service;
 import model.Dragon;
 import model.Knight;
 
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Map.Entry;
 
 import static java.util.stream.Collectors.toMap;
 
 public class DragonCreatorService {
 
-	private KnightDragonFactory factory;
-
-	public DragonCreatorService(KnightDragonFactory factory) {
-		this.factory = factory;
-	}
-
 	public Dragon trainDragon(Knight knight, String weatherCode) {
 		Dragon dragon = null;
 		switch (weatherCode) {
 			case "NMR":
-				dragon = getDragonNormalWeather(knight);
+				dragon = trainDragonNormalWeather(knight);
 				break;
 			case "FUNDEFINEDG":
-				dragon = factory.getDroughtDragon();
+				dragon = KnightDragonFactory.getDroughtDragon();
 				break;
 			case "HVA":
-				dragon = factory.getRainDragon();
+				dragon = KnightDragonFactory.getRainDragon();
 				break;
 			case "T E":
-				dragon = factory.getDroughtDragon();
+				dragon = KnightDragonFactory.getDroughtDragon();
 				break;
 			default:
 				break;
@@ -38,9 +33,9 @@ public class DragonCreatorService {
 		return dragon;
 	}
 
-	private Dragon getDragonNormalWeather(Knight knight) {
-		if (knight.equals(factory.getBlancedKnight())) {
-			return factory.getBalancedKnightsDragon();
+	private Dragon trainDragonNormalWeather(Knight knight) {
+		if (knight.equals(KnightDragonFactory.getBlancedKnight())) {
+			return KnightDragonFactory.getBalancedKnightsDragon();
 		}
 
 		Map<String, Integer> abilityIndexMapDragon = knight.getAbilityIndexMapDragon();
@@ -48,17 +43,14 @@ public class DragonCreatorService {
 
 		changeAbilityMapToDefeatKnight(abilityIndexMapDragon, sortedNewMap);
 
-		return new Dragon(abilityIndexMapDragon.get("scaleThickness"),
-				abilityIndexMapDragon.get("clawSharpness"),
-				abilityIndexMapDragon.get("wingStrength"),
-				abilityIndexMapDragon.get("fireBreath"));
+		return new Dragon(abilityIndexMapDragon);
 	}
 
 	private void changeAbilityMapToDefeatKnight(Map<String, Integer> abilityIndexMapDragon, Map<String, Integer> sortedMap) {
 		int index = 1;
 		int toDivide = 2;
 
-		for (Map.Entry<String, Integer> e : sortedMap.entrySet()) {
+		for (Entry<String, Integer> e : sortedMap.entrySet()) {
 			int value = e.getValue();
 			String ability = e.getKey();
 
@@ -81,8 +73,8 @@ public class DragonCreatorService {
 		return map.entrySet()
 				.stream()
 				.filter(e -> e.getValue() > 0)
-				.sorted((e1, e2) -> e1.getValue().compareTo(e2.getValue()))
-				.collect(toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+				.sorted(Comparator.comparing(Entry::getValue))
+				.collect(toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 	}
 
 }

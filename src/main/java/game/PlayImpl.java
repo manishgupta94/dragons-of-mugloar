@@ -18,13 +18,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class PlayImpl implements Play {
 
+	private final Logger logger = Logger.getLogger("Logger");
+
 	private GameController gameController;
 
 	private boolean isAsync;
-
-	private final Logger logger = Logger.getLogger("Logger");
-
-	private final static int nrOfThreads = 5;
 
 	public PlayImpl(GameController gameController) {
 		this.gameController = gameController;
@@ -42,7 +40,7 @@ public class PlayImpl implements Play {
 		logger.info("Welcome to Dragons of Mugloar.");
 		if (isAsync) {
 			logger.info("Playing multithreaded game");
-			executor = Executors.newFixedThreadPool(nrOfThreads);
+			executor = Executors.newFixedThreadPool(5);
 		} else {
 			logger.info("Playing singlehreaded game");
 			executor = Executors.newSingleThreadExecutor();

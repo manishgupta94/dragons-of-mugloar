@@ -1,7 +1,6 @@
 package http;
 
 import com.google.gson.Gson;
-import generated.Report;
 import org.apache.log4j.Logger;
 
 import javax.xml.bind.JAXBContext;
@@ -15,7 +14,7 @@ public class ObjectSerializer {
 
 	private final Logger logger = Logger.getLogger("Logger");
 
-	public  <T> T getFromJson(String json, Class<T> clazz) {
+	public <T> T getFromJson(String json, Class<T> clazz) {
 		return gson.fromJson(json, clazz);
 	}
 
