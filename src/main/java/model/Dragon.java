@@ -12,13 +12,16 @@ public class Dragon {
 
 	private int fireBreath;
 
-	public Dragon() {}
+	public Dragon() {
+		assertAbilities();
+	}
 
 	public Dragon(int scaleThickness, int clawSharpness, int wingStrength, int fireBreath) {
 		this.scaleThickness = scaleThickness;
 		this.clawSharpness = clawSharpness;
 		this.wingStrength = wingStrength;
 		this.fireBreath = fireBreath;
+		assertAbilities();
 	}
 
     public Dragon(Map<String, Integer> abilityIndexMapKnight) {
@@ -26,6 +29,7 @@ public class Dragon {
         this.clawSharpness = abilityIndexMapKnight.get("clawSharpness");
         this.wingStrength = abilityIndexMapKnight.get("wingStrength");
         this.fireBreath = abilityIndexMapKnight.get("fireBreath");
+		assertAbilities();
     }
 
 	public void setScaleThickness(int scaleThickness) {
@@ -74,6 +78,16 @@ public class Dragon {
 		result = 31 * result + this.wingStrength;
 		result = 31 * result + this.fireBreath;
 		return result;
+	}
+
+	private void assertAbilities() {
+		if (sumOfAbilities() != 20) {
+			throw new IllegalArgumentException("Sum invalid");
+		}
+	}
+
+	private int sumOfAbilities() {
+		return scaleThickness + clawSharpness + wingStrength + fireBreath;
 	}
 
 }

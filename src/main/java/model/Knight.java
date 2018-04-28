@@ -22,6 +22,9 @@ public class Knight {
 		this.armor = armor;
 		this.agility = agility;
 		this.endurance = endurance;
+		if (sumOfAbilities() != 20) {
+		    throw new IllegalArgumentException("Sum invalid");
+        }
 	}
 
 	public String getName() {
@@ -87,5 +90,9 @@ public class Knight {
 				", endurance=" + endurance +
 				'}';
 	}
+
+	private int sumOfAbilities() {
+	    return attack + armor + agility + endurance;
+    }
 
 }
