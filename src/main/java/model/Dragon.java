@@ -5,16 +5,9 @@ import java.util.Map;
 public class Dragon {
 
 	private int scaleThickness;
-
 	private int clawSharpness;
-
 	private int wingStrength;
-
 	private int fireBreath;
-
-	public Dragon() {
-		assertAbilities();
-	}
 
 	public Dragon(int scaleThickness, int clawSharpness, int wingStrength, int fireBreath) {
 		this.scaleThickness = scaleThickness;
@@ -82,7 +75,7 @@ public class Dragon {
 
 	private void assertAbilities() {
 		if (sumOfAbilities() != 20) {
-			throw new IllegalArgumentException("Sum invalid");
+			throw new IllegalArgumentException("Expected the sum of 20, got " + sumOfAbilities());
 		}
 	}
 

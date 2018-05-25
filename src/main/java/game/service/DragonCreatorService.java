@@ -2,79 +2,81 @@ package game.service;
 
 import model.Dragon;
 import model.Knight;
+import model.WeatherCode;
+import org.javatuples.Pair;
 
-import java.util.Comparator;
-import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-
-import static java.util.stream.Collectors.toMap;
+import java.util.stream.Collectors;
 
 public class DragonCreatorService {
 
-	public Dragon trainDragon(Knight knight, String weatherCode) {
+	public Dragon trainDragon(Knight knight, WeatherCode weatherCode) {
 		Dragon dragon = null;
 		switch (weatherCode) {
-			case "NMR":
+            case NORMAL_WEATHER:
 				dragon = trainDragonNormalWeather(knight);
 				break;
-			case "FUNDEFINEDG":
-				dragon = KnightDragonFactory.getDroughtDragon();
+			case DROUGHT:
+				dragon = KnightDragonFactory.droughtDragon();
 				break;
-			case "HVA":
-				dragon = KnightDragonFactory.getRainDragon();
+			case RAIN:
+				dragon = KnightDragonFactory.rainDragon();
 				break;
-			case "T E":
-				dragon = KnightDragonFactory.getDroughtDragon();
+			case FOG:
+				dragon = KnightDragonFactory.droughtDragon();
 				break;
+            case STORM:
+                break;
 			default:
-				break;
+				throw new IllegalArgumentException("Weather code not found: " + weatherCode);
 		}
 		return dragon;
 	}
 
 	private Dragon trainDragonNormalWeather(Knight knight) {
-		if (knight.equals(KnightDragonFactory.getBlancedKnight())) {
-			return KnightDragonFactory.getBalancedKnightsDragon();
+		if ((KnightDragonFactory.balancedKnight().equals(knight))) {
+			return KnightDragonFactory.balancedKnightsDragon();
 		}
 
-		Map<String, Integer> abilityIndexMapDragon = knight.getAbilityIndexMapDragon();
-		Map<String, Integer> sortedNewMap = getSortedMap(abilityIndexMapDragon);
+        final Map<String, Integer> abilityIndexMapDragon = makeDragonAbilityKnightToDefeatKnight(knight);
 
-		changeAbilityMapToDefeatKnight(abilityIndexMapDragon, sortedNewMap);
-
-		return new Dragon(abilityIndexMapDragon);
+        return new Dragon(abilityIndexMapDragon);
 	}
 
-	private void changeAbilityMapToDefeatKnight(Map<String, Integer> abilityIndexMapDragon, Map<String, Integer> sortedMap) {
-		int index = 1;
-		int toDivide = 2;
+    private Map<String, Integer> makeDragonAbilityKnightToDefeatKnight(Knight knight) {
+        final Map<String, Integer> abilityIndexMapDragon = knight.getAbilityIndexMapDragon();
+        final List<Pair<String, Integer>> collect = getSortedDragonAbilityMaping(knight);
 
-		for (Entry<String, Integer> e : sortedMap.entrySet()) {
-			int value = e.getValue();
-			String ability = e.getKey();
+        Pair<String, Integer> firstPair = collect.get(0);
+        abilityIndexMapDragon.put(firstPair.getValue0(), firstPair.getValue1() + 2);
 
-			if (index == sortedMap.size()) {
-				abilityIndexMapDragon.put(ability, value + 2);
-				break;
+        if (collect.size() == 4) {
+            Pair<String, Integer> secondPair = collect.get(1);
+            abilityIndexMapDragon.put(secondPair.getValue0(), secondPair.getValue1() - 1);
 
-			} else {
-				if (toDivide > 0) {
-					abilityIndexMapDragon.put(ability, value - 1);
-					toDivide--;
-				}
-			}
+            Pair<String, Integer> thirdPair = collect.get(2);
+            abilityIndexMapDragon.put(thirdPair.getValue0(), thirdPair.getValue1() - 1);
+        } else if (collect.size() == 3) {
+            Pair<String, Integer> secondPair = collect.get(1);
+            abilityIndexMapDragon.put(secondPair.getValue0(), secondPair.getValue1() - 1);
 
-			index++;
-		}
-	}
+            Pair<String, Integer> thirdPair = collect.get(2);
+            abilityIndexMapDragon.put(thirdPair.getValue0(), thirdPair.getValue1() - 1);
+        } else if (collect.size() == 2) {
+            Pair<String, Integer> secondPair = collect.get(1);
+            abilityIndexMapDragon.put(secondPair.getValue0(), secondPair.getValue1() - 2);
+        }
 
-	private Map<String, Integer> getSortedMap(Map<String, Integer> map) {
-		return map.entrySet()
-				.stream()
-				.filter(e -> e.getValue() > 0)
-				.sorted(Comparator.comparing(Entry::getValue))
-				.collect(toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-	}
+        return abilityIndexMapDragon;
+    }
+
+    private List<Pair<String, Integer>> getSortedDragonAbilityMaping(Knight knight) {
+        return knight.getAbilityIndexPairsDragon()
+            .stream()
+            .filter(pair -> pair.getValue1() > 0)
+            .sorted((x, y) -> y.getValue1().compareTo(x.getValue1()))
+            .collect(Collectors.toList());
+    }
 
 }

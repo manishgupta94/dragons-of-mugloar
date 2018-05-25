@@ -1,18 +1,18 @@
 package model;
 
+import org.javatuples.Pair;
+
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Knight {
 
 	private String name;
-
 	private int attack;
-
 	private int armor;
-
 	private int agility;
-
 	private int endurance;
 
 	public Knight() {}
@@ -23,7 +23,7 @@ public class Knight {
 		this.agility = agility;
 		this.endurance = endurance;
 		if (sumOfAbilities() != 20) {
-		    throw new IllegalArgumentException("Sum invalid");
+		    throw new IllegalArgumentException("Sum is " + sumOfAbilities() + "Not 20");
         }
 	}
 
@@ -55,6 +55,15 @@ public class Knight {
 		map.put("fireBreath", this.endurance);
 		return map;
 	}
+
+	public List<Pair<String, Integer>> getAbilityIndexPairsDragon() {
+	    return Arrays.asList(
+	        Pair.with("scaleThickness", this.attack),
+            Pair.with("clawSharpness", this.armor),
+            Pair.with("wingStrength", this.agility),
+            Pair.with("fireBreath", this.endurance)
+        );
+    }
 
 	@Override
 	public boolean equals(Object o) {

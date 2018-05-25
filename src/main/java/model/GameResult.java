@@ -3,7 +3,6 @@ package model;
 public class GameResult {
 
 	private String status;
-
 	private String message;
 
 	public String getStatus() {

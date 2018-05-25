@@ -10,12 +10,12 @@ import java.io.StringReader;
 
 public class ObjectSerializer {
 
+	private final Logger logger = Logger.getLogger(ObjectSerializer.class);
+
 	private final Gson gson = new Gson();
 
-	private final Logger logger = Logger.getLogger("Logger");
-
 	public <T> T getFromJson(String json, Class<T> clazz) {
-		return gson.fromJson(json, clazz);
+		return new Gson().fromJson(json, clazz);
 	}
 
 	public String getJson(Object o) {
@@ -24,13 +24,13 @@ public class ObjectSerializer {
 
 	public <T> T getObjectFromXml(String xml, Class<T> clazz) {
 		try {
+			StringReader reader = new StringReader(xml);
+
 			JAXBContext jaxbContext = JAXBContext.newInstance(clazz);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-
-			StringReader reader = new StringReader(xml);
 			return (T) unmarshaller.unmarshal(reader);
 		} catch (JAXBException e) {
-			logger.error("Failed to unmarshall");
+			logger.error("Failed to unmarshall", e);
 		}
 		return null;
 	}

@@ -14,9 +14,9 @@ import java.util.List;
 
 public class Main {
 
-	private static final Logger logger = Logger.getLogger("Logger");
+	private static final Logger logger = Logger.getLogger(Main.class);
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		long start = System.currentTimeMillis();
 
 		int nrOfGames = Integer.parseInt(args[0]);
@@ -24,12 +24,11 @@ public class Main {
 
 		Play play = new PlayImpl(constructGameController(), isMultiThreaded);
 
-		List<GameResult> resultList = play.start(nrOfGames);
+		List<GameResult> resultList = play.playGame(nrOfGames);
 
 		int games = resultList.size();
 		long won = resultList.stream()
-				.map(GameResult::isWon)
-				.filter(b -> b)
+				.filter(GameResult::isWon)
 				.count();
 
 		logger.info("Time elapsed: " + (System.currentTimeMillis() - start)/1000 + " seconds");

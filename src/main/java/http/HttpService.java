@@ -10,8 +10,8 @@ import java.io.IOException;
 
 public class HttpService {
 
-	private HttpClient httpClient;
-	private ObjectSerializer objectSerializer;
+	private final HttpClient httpClient;
+	private final ObjectSerializer objectSerializer;
 
 	public HttpService(HttpClient httpClient, ObjectSerializer objectSerializer) {
 		this.httpClient = httpClient;
@@ -24,13 +24,13 @@ public class HttpService {
 	}
 
 	public Report getWeather(int gameId) throws IOException {
-		String resp = httpClient.makeGetRequest(Constants.getGameWeatherUrl(gameId));
-		return objectSerializer.getObjectFromXml(resp, Report.class);
+		String response = httpClient.makeGetRequest(Constants.getGameWeatherUrl(gameId));
+		return objectSerializer.getObjectFromXml(response, Report.class);
 	}
 
 	public GameResult solveGame(GameSolution solution, int gameId) throws IOException {
-		String ans = httpClient.makePostRequest(Constants.getGameSolutionUrl(gameId), objectSerializer.getJson(solution));
-		return objectSerializer.getFromJson(ans, GameResult.class);
+		String response = httpClient.makePostRequest(Constants.getGameSolutionUrl(gameId), objectSerializer.getJson(solution));
+		return objectSerializer.getFromJson(response, GameResult.class);
 	}
 
 }

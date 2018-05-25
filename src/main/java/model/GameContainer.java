@@ -3,12 +3,10 @@ package model;
 public class GameContainer {
 
 	private int gameId;
-
 	private Knight knight;
+	private WeatherCode weatherCode;
 
-	private String weatherCode;
-
-	public GameContainer(int gameId, Knight knight, String weatherCode) {
+	public GameContainer(int gameId, Knight knight, WeatherCode weatherCode) {
 		this.gameId = gameId;
 		this.knight = knight;
 		this.weatherCode = weatherCode;
@@ -22,7 +20,7 @@ public class GameContainer {
 		return this.knight;
 	}
 
-	public String getWeatherCode() {
+	public WeatherCode getWeatherCode() {
 		return this.weatherCode;
 	}
 

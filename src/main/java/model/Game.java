@@ -3,10 +3,7 @@ package model;
 public class Game {
 
 	private int gameId;
-
 	private Knight knight;
-
-	public Game() {}
 
 	public int getGameId() {
 		return this.gameId;
