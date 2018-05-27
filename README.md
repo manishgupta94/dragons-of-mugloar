@@ -17,5 +17,4 @@ Solution implemented with Java
 * boolean whether to run games async or single threaded
 
 example 1: `10 true` to play the game 10 times and invocations are async <p>
-example 2: `10 false` to play the game 10 times and invocations are single threaded 
-
+example 2: `10 false` to play the game 10 times and invocations are single threaded

@@ -8,20 +8,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameProcessor implements Callable<GameResult> {
 
-	private final Logger logger = Logger.getLogger(GameProcessor.class);
+    private final Logger logger = Logger.getLogger(GameProcessor.class);
 
-	private GameController gameController;
-	private AtomicInteger atomicInteger;
+    private final GameController gameController;
+    private final AtomicInteger atomicInteger;
 
-	public GameProcessor(GameController gameController, AtomicInteger atomicInteger) {
-		this.gameController = gameController;
-		this.atomicInteger = atomicInteger;
-	}
+    public GameProcessor(GameController gameController, AtomicInteger atomicInteger) {
+        this.gameController = gameController;
+        this.atomicInteger = atomicInteger;
+    }
 
-	@Override
-	public GameResult call() {
-		logger.info("Game nr: " + atomicInteger.incrementAndGet());
-		return gameController.playGame();
-	}
+    @Override
+    public GameResult call() {
+        logger.info("Game nr: " + atomicInteger.incrementAndGet());
+        return gameController.playGame();
+    }
 
 }

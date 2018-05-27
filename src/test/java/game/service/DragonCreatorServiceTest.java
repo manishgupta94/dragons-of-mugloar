@@ -16,16 +16,16 @@ public class DragonCreatorServiceTest {
 
     private final DragonCreatorService service = new DragonCreatorService();
 
-	@Test
-	public void trainDragon_normalWeather() {
-		Knight knight = new Knight(5, 8, 5, 2);
+    @Test
+    public void trainDragon_normalWeather() {
+        Knight knight = new Knight(5, 8, 5, 2);
         Dragon dragon = service.trainDragon(knight, NORMAL_WEATHER);
-		assertEquals(new Dragon(4, 10, 4, 2), dragon);
-	}
+        assertEquals(new Dragon(4, 10, 4, 2), dragon);
+    }
 
     @Test
     public void trainDragon_drought() {
-	    Dragon result = service.trainDragon(new Knight(), DROUGHT);
+        Dragon result = service.trainDragon(new Knight(), DROUGHT);
         assertEquals(KnightDragonFactory.droughtDragon(), result);
     }
 

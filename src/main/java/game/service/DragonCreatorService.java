@@ -11,42 +11,43 @@ import java.util.stream.Collectors;
 
 public class DragonCreatorService {
 
-	public Dragon trainDragon(Knight knight, WeatherCode weatherCode) {
-		Dragon dragon = null;
-		switch (weatherCode) {
+    public Dragon trainDragon(Knight knight, WeatherCode weatherCode) {
+        Dragon dragon;
+        switch (weatherCode) {
             case NORMAL_WEATHER:
-				dragon = trainDragonNormalWeather(knight);
-				break;
-			case DROUGHT:
-				dragon = KnightDragonFactory.droughtDragon();
-				break;
-			case RAIN:
-				dragon = KnightDragonFactory.rainDragon();
-				break;
-			case FOG:
-				dragon = KnightDragonFactory.droughtDragon();
-				break;
-            case STORM:
+                dragon = trainDragonNormalWeather(knight);
                 break;
-			default:
-				throw new IllegalArgumentException("Weather code not found: " + weatherCode);
-		}
-		return dragon;
-	}
+            case DROUGHT:
+                dragon = KnightDragonFactory.droughtDragon();
+                break;
+            case RAIN:
+                dragon = KnightDragonFactory.rainDragon();
+                break;
+            case FOG:
+                dragon = KnightDragonFactory.droughtDragon();
+                break;
+            case STORM:
+                dragon = null;
+                break;
+            default:
+                throw new IllegalArgumentException("Weather code not found: " + weatherCode);
+        }
+        return dragon;
+    }
 
-	private Dragon trainDragonNormalWeather(Knight knight) {
-		if ((KnightDragonFactory.balancedKnight().equals(knight))) {
-			return KnightDragonFactory.balancedKnightsDragon();
-		}
+    private Dragon trainDragonNormalWeather(Knight knight) {
+        if ((KnightDragonFactory.balancedKnight().equals(knight))) {
+            return KnightDragonFactory.balancedKnightsDragon();
+        }
 
-        final Map<String, Integer> abilityIndexMapDragon = makeDragonAbilityKnightToDefeatKnight(knight);
+        Map<String, Integer> abilityIndexMapDragon = makeDragonAbilityKnightToDefeatKnight(knight);
 
         return new Dragon(abilityIndexMapDragon);
-	}
+    }
 
     private Map<String, Integer> makeDragonAbilityKnightToDefeatKnight(Knight knight) {
-        final Map<String, Integer> abilityIndexMapDragon = knight.getAbilityIndexMapDragon();
-        final List<Pair<String, Integer>> collect = getSortedDragonAbilityMaping(knight);
+        Map<String, Integer> abilityIndexMapDragon = knight.getAbilityIndexMapDragon();
+        List<Pair<String, Integer>> collect = getSortedDragonAbilityMaping(knight);
 
         Pair<String, Integer> firstPair = collect.get(0);
         abilityIndexMapDragon.put(firstPair.getValue0(), firstPair.getValue1() + 2);
