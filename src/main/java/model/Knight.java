@@ -15,8 +15,7 @@ public class Knight {
     private int agility;
     private int endurance;
 
-    public Knight() {
-    }
+    public Knight() {}
 
     public Knight(int attack, int armor, int agility, int endurance) {
         this.attack = attack;
@@ -81,10 +80,7 @@ public class Knight {
             return false;
         if (agility != knight.agility)
             return false;
-        if (endurance != knight.endurance)
-            return false;
-
-        return true;
+        return endurance == knight.endurance;
     }
 
     @Override

@@ -10,7 +10,7 @@ public class MyHttpClientTest {
     @Test
     public void testGetMethod() throws Exception {
         HttpClient client = new HttpClientImpl();
-        String ans = client.makeGetRequest("https://freegeoip.net/json/");
+        String ans = client.makeGetRequest("https://ipinfo.io");
         assertTrue(ans.length() > 0);
     }
 
@@ -28,4 +28,5 @@ public class MyHttpClientTest {
         String ans = client.makePutRequest(Constants.getGameSolutionUrl(483159), data);
         assertTrue(ans.length() > 0);
     }
+
 }

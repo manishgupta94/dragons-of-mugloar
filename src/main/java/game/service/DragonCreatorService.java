@@ -53,23 +53,23 @@ public class DragonCreatorService {
         abilityIndexMapDragon.put(firstPair.getValue0(), firstPair.getValue1() + 2);
 
         if (collect.size() == 4) {
-            Pair<String, Integer> secondPair = collect.get(1);
-            abilityIndexMapDragon.put(secondPair.getValue0(), secondPair.getValue1() - 1);
-
-            Pair<String, Integer> thirdPair = collect.get(2);
-            abilityIndexMapDragon.put(thirdPair.getValue0(), thirdPair.getValue1() - 1);
+            addSecondAndThirdPair(abilityIndexMapDragon, collect);
         } else if (collect.size() == 3) {
-            Pair<String, Integer> secondPair = collect.get(1);
-            abilityIndexMapDragon.put(secondPair.getValue0(), secondPair.getValue1() - 1);
-
-            Pair<String, Integer> thirdPair = collect.get(2);
-            abilityIndexMapDragon.put(thirdPair.getValue0(), thirdPair.getValue1() - 1);
+            addSecondAndThirdPair(abilityIndexMapDragon, collect);
         } else if (collect.size() == 2) {
             Pair<String, Integer> secondPair = collect.get(1);
             abilityIndexMapDragon.put(secondPair.getValue0(), secondPair.getValue1() - 2);
         }
 
         return abilityIndexMapDragon;
+    }
+
+    private void addSecondAndThirdPair(Map<String, Integer> abilityIndexMapDragon, List<Pair<String, Integer>> collect) {
+        Pair<String, Integer> secondPair = collect.get(1);
+        abilityIndexMapDragon.put(secondPair.getValue0(), secondPair.getValue1() - 1);
+
+        Pair<String, Integer> thirdPair = collect.get(2);
+        abilityIndexMapDragon.put(thirdPair.getValue0(), thirdPair.getValue1() - 1);
     }
 
     private List<Pair<String, Integer>> getSortedDragonAbilityMaping(Knight knight) {

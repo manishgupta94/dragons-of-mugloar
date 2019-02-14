@@ -1,15 +1,14 @@
 package http;
 
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.gson.Gson;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import java.io.StringReader;
+import java.io.IOException;
 
 public class ObjectSerializer {
 
     private final Gson gson = new Gson();
+    private final XmlMapper xmlMapper = new XmlMapper();
 
     public <T> T getFromJson(String json, Class<T> clazz) {
         return new Gson().fromJson(json, clazz);
@@ -19,12 +18,8 @@ public class ObjectSerializer {
         return gson.toJson(o);
     }
 
-    public <T> T getObjectFromXml(String xml, Class<T> clazz) throws JAXBException {
-        StringReader reader = new StringReader(xml);
-
-        JAXBContext jaxbContext = JAXBContext.newInstance(clazz);
-        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-        return (T) unmarshaller.unmarshal(reader);
+    public <T> T getObjectFromXml(String xml, Class<T> clazz) throws IOException {
+        return xmlMapper.readValue(xml, clazz);
     }
 
 }

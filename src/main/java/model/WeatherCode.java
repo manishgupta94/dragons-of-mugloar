@@ -1,7 +1,5 @@
 package model;
 
-import generated.Report;
-
 public enum WeatherCode {
     NORMAL_WEATHER("NMR"),
     DROUGHT("FUNDEFINEDG"),
@@ -15,9 +13,9 @@ public enum WeatherCode {
         this.weather = weather;
     }
 
-    public static WeatherCode fromReport(Report report) {
-        final String code = report.getCode();
-        for (WeatherCode weatherCode : WeatherCode.values()) {
+    public static WeatherCode fromReport(WeatherReport report) {
+        String code = report.getCode();
+        for (WeatherCode weatherCode : values()) {
             if (weatherCode.weather.equals(code)) {
                 return weatherCode;
             }

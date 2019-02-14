@@ -19,8 +19,10 @@ public class Main {
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
 
-        int nrOfGames = Integer.parseInt(args[0]);
-        boolean isMultiThreaded = Boolean.parseBoolean(args[1]);
+        boolean hasTwoArgs = args.length == 2;
+
+        int nrOfGames = hasTwoArgs ? Integer.parseInt(args[0]) : 1;
+        boolean isMultiThreaded = hasTwoArgs && Boolean.parseBoolean(args[1]);
 
         Play play = new PlayImpl(constructGameController(), isMultiThreaded);
 

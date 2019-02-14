@@ -1,10 +1,10 @@
 package http;
 
-import generated.Report;
 import model.Dragon;
 import model.Game;
 import model.GameResult;
 import model.GameSolution;
+import model.WeatherReport;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class HttpServiceTest {
 
-    HttpService service;
+    private HttpService service;
 
     @Before
     public void setUp() {
@@ -24,7 +24,7 @@ public class HttpServiceTest {
 
     @Test
     public void getWeatherTest() throws Exception {
-        Report weather = service.getWeather(483158);
+        WeatherReport weather = service.getWeather(483158);
         assertEquals("SRO", weather.getCode());
     }
 

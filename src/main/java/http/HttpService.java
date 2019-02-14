@@ -1,12 +1,11 @@
 package http;
 
 import constants.Constants;
-import generated.Report;
 import model.Game;
 import model.GameResult;
 import model.GameSolution;
+import model.WeatherReport;
 
-import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
 public class HttpService {
@@ -24,9 +23,9 @@ public class HttpService {
         return objectSerializer.getFromJson(response, Game.class);
     }
 
-    public Report getWeather(int gameId) throws IOException, JAXBException {
+    public WeatherReport getWeather(int gameId) throws IOException {
         String response = httpClient.makeGetRequest(Constants.getGameWeatherUrl(gameId));
-        return objectSerializer.getObjectFromXml(response, Report.class);
+        return objectSerializer.getObjectFromXml(response, WeatherReport.class);
     }
 
     public GameResult solveGame(GameSolution solution, int gameId) throws IOException {

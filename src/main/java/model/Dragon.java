@@ -4,10 +4,10 @@ import java.util.Map;
 
 public class Dragon {
 
-    private int scaleThickness;
-    private int clawSharpness;
-    private int wingStrength;
-    private int fireBreath;
+    private final int scaleThickness;
+    private final int clawSharpness;
+    private final int wingStrength;
+    private final int fireBreath;
 
     public Dragon(int scaleThickness, int clawSharpness, int wingStrength, int fireBreath) {
         this.scaleThickness = scaleThickness;
@@ -23,22 +23,6 @@ public class Dragon {
         this.wingStrength = abilityIndexMapKnight.get("wingStrength");
         this.fireBreath = abilityIndexMapKnight.get("fireBreath");
         assertAbilities();
-    }
-
-    public void setScaleThickness(int scaleThickness) {
-        this.scaleThickness = scaleThickness;
-    }
-
-    public void setClawSharpness(int clawSharpness) {
-        this.clawSharpness = clawSharpness;
-    }
-
-    public void setWingStrength(int wingStrength) {
-        this.wingStrength = wingStrength;
-    }
-
-    public void setFireBreath(int fireBreath) {
-        this.fireBreath = fireBreath;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package game;
 
 import game.service.DragonCreatorService;
-import generated.Report;
 import http.HttpService;
 import model.Dragon;
 import model.Game;
@@ -9,9 +8,9 @@ import model.GameContainer;
 import model.GameResult;
 import model.GameSolution;
 import model.WeatherCode;
+import model.WeatherReport;
 import org.apache.log4j.Logger;
 
-import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
 public class GameController {
@@ -49,9 +48,9 @@ public class GameController {
 
         try {
             Game game = httpService.getGame();
-            Report report = httpService.getWeather(game.getGameId());
+            WeatherReport report = httpService.getWeather(game.getGameId());
             gameContainer = new GameContainer(game.getGameId(), game.getKnight(), WeatherCode.fromReport(report));
-        } catch (IOException | JAXBException e) {
+        } catch (IOException e) {
             logger.error("Failed to fetch game data or weather!", e);
         }
         return gameContainer;
